@@ -1,0 +1,5 @@
+*.umbracache
+*.bin
+Library/metadata/
+.vs/
+Temp/
