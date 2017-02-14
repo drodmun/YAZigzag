@@ -30,40 +30,30 @@ public class PlatformSpawner : MonoBehaviour {
     }
 
     void SpawnPlatforms() {
+        Vector3 pos = lastPos;
+
         if (Random.Range(0, 6) < 3) {
-            SpawnX();
+            pos.x += size;
         } else {
-            SpawnZ();
+            pos.z += size;
         }
+
+        SpawnPlantform(pos);
     }
 
-    void SpawnX() {
-        Vector3 pos = lastPos;
-        pos.x += size;
-
+    void SpawnPlantform(Vector3 pos) {
         lastPos = pos;
-        Instantiate(platform, pos, Quaternion.identity);
+        GameObject newPlatform = Instantiate(platform, pos, Quaternion.identity);
 
         if (Random.Range(0, 4) == 0) {
-            SpawnDiamond(pos);
+            GameObject newDiamond = SpawnDiamond(pos);
+            newDiamond.transform.parent = newPlatform.transform;
         }
     }
 
-    void SpawnZ() {
-        Vector3 pos = lastPos;
-        pos.z += size;
+    GameObject SpawnDiamond(Vector3 pos) {
+        pos.y += 1.5f;
 
-        lastPos = pos;
-        Instantiate(platform, pos, Quaternion.identity);
-
-        if (Random.Range(0, 4) == 0) {
-            SpawnDiamond(pos);
-        }
-    }
-
-    void SpawnDiamond(Vector3 pos) {
-        pos.y += 1f;
-
-        Instantiate(diamond, pos, diamond.transform.rotation);
+        return Instantiate(diamond, pos, diamond.transform.rotation);
     }
 }
